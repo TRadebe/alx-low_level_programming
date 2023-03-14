@@ -2,11 +2,11 @@
 #include <stdlib.h>
 
 /**
- * main - using main function
- * @argc: integer
- * @argv: string
- * Return: 0
- */
+* main - using main function
+* @argc: integer
+* @argv: string
+* Return: 0
+*/
 int main(int argc, char *argv[])
 {
 int mul1, mul2, res;
