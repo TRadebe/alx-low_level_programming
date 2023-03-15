@@ -2,7 +2,7 @@
 #include<stdio.h>
 /**
 * main - Entry point
-* str - somehow it will work
+* @str: string to be printed
 * Return: Always 0 (Success)
 */
 void _puts(char *str);
