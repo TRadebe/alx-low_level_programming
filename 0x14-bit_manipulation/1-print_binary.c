@@ -1,10 +1,10 @@
 #include "main.h"
 
 /**
- * print_binary -will print the binary == of a decimal number
- *
- * @n: numb that wil be printed in binary
- */
+* print_binary -will print the binary == of a decimal number
+*
+* @n: numb that wil be printed in binary
+*/
 
 void print_binary(unsigned long int n)
 {

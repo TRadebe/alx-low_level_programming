@@ -9,7 +9,7 @@
 unsigned int binary_to_uint(const char *b)
 {
 int s;/*int assigned s*/
-unsigned int dec_val = 0;
+unsigned int dec_value = 0;
 /* if statement condition*/
 if (!b)
 return (0);
