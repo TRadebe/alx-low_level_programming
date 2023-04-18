@@ -1,28 +1,26 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
-* print_binary -will print the binary == of a decimal number
-*
-* @n: numb that wil be printed in binary
-*/
+ * print_binary - prints the binary representation of a number
+ * @n: the number to print
+ *
+ * Return: void
+ */
 
 void print_binary(unsigned long int n)
 {
-int s, count = 0;
-unsigned long int inuse;
+unsigned long int mask;
 
-for (s = 63; i >= 0; s--)
+mask = 1UL << (sizeof(unsigned long int) * 8 - 1);
+
+while (mask > 0)
 {
-inuse = n >> s;
-/* if and else if statement condition*/
-if (inuse & 1)
-{
-_putchar('1');
-count++;
+if ((n & mask) == 0)
+_putchar(0);
+else
+_putchar(1);
+
+mask >>= 1;
 }
-else if (count)
-_putchar('0');
-}
-if (!count)
-_putchar('0');
 }
