@@ -1,41 +1,54 @@
 #include "main.h"
 
 /**
-* read_textfile - reads a text file and prints it to the POSIX standard output
-* @filename: pointer to the name of the file to read
-* @letters: number of letters it should read and print
-*
-* Return: the actual number of letters it could read and print, or 0 on failure
-*/
+ 
+ * read_textfile - Reads a text file and prints it to standard output
+ *
+ * @filename: The name of the file to read
+ * @letters: The number of letters to read and print
+ *
+ * Return: The actual number of letters read and printed, or 0 on failure
+ */
+
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-/* check if filename is NULL */
-if (!filename)
+/* Check if filename is null */
+if (filename == NULL)
 return (0);
 
-/* open the file for reading */
+/* Open file for reading */
 FILE *file = fopen(filename, "r");
-if (!file)
+if (file == NULL)
 return (0);
 
-/* read the file into a buffer */
-char buffer[letters];
-ssize_t bytes_read = fread(buffer, sizeof(char), letters, file);
-if (bytes_read < 0)
+/* Allocate memory for buffer */
+char *buffer = malloc(sizeof(char) * (letters + 1));
+if (buffer == NULL)
 {
 fclose(file);
 return (0);
 }
 
-/* write the buffer to standard output */
+/* Read from file into buffer */
+size_t bytes_read = fread(buffer, sizeof(char), letters, file);
+if (bytes_read == 0)
+{
+fclose(file);
+free(buffer);
+return (0);
+}
+
+/* Write buffer to standard output */
 ssize_t bytes_written = write(STDOUT_FILENO, buffer, bytes_read);
-if (bytes_written < 0 || bytes_written != bytes_read)
+if (bytes_written == -1 || bytes_written != (ssize_t)bytes_read)
 {
 fclose(file);
+free(buffer);
 return (0);
 }
 
-/* close the file and return the number of bytes written */
+/* Clean up and return number of bytes written */
 fclose(file);
+free(buffer);
 return (bytes_written);
 }
