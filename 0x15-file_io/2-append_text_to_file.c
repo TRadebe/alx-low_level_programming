@@ -1,7 +1,5 @@
 #include "main.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
+
 
 /**
 * create_file - Creates a file with a given filename and writes a given string
@@ -21,9 +19,6 @@ if (!filename) /* if filename is NULL */
 return (-1);
 
 fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-/* open the file with write-only, create and truncate modes
-* set permissions to rw------- (0600)
-*/
 
 if (fd == -1) /* if the file can not be created */
 return (-1);

@@ -1,55 +1,39 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
+#include "main.h"
 
-#define BUFFER_SIZE 1024
+/**
+* create_file - creates a new file with specified text content
+* @filename: the name of the file to create
+* @text_content: the text to write to the file
+*
+* Return: 1 on success, -1 on failure
+*/
 
-int main(int argc, char *argv[]) {
-int fd_from, fd_to;
-ssize_t bytes_read, bytes_written;
-char buffer[BUFFER_SIZE];
- 
-// Check arguments
-if (argc != 3) {
-dprintf(STDERR_FILENO, "Usage: %s file_from file_to\n", argv[0]);
-exit(97);
-}
+int create_file(const char *filename, char *text_content)
+{
+int fd, res_write, i;
 
-// Open source file
-fd_from = open(argv[1], O_RDONLY);
-if (fd_from == -1) {
-dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-exit(98);
-}
+mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH; /*permissions*/
 
-// Truncate or create target file
-fd_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-if (fd_to == -1) {
-dprintf(STDERR_FILENO, "Error: Can't write to file %s\n", argv[2]);
-exit(99);
-}
+if (filename == NULL) /* validate filename input */
+return (-1);
 
-// Copy content
-while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0) {
-bytes_written = write(fd_to, buffer, bytes_read);
-if (bytes_written != bytes_read) {
-dprintf(STDERR_FILENO, "Error: Can't write to file %s\n", argv[2]);
-exit(99);
+/* Open the file with O_CREAT and O_WRONLY, and set the file permissions */
+fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, mode);
+if (fd == -1) /* check for open() error */
+return (-1);
+
+if (text_content != NULL) /* if content is not NULL, write to file */
+{
+for (i = 0; text_content[i] != '\0'; i++)
+;
+res_write = write(fd, text_content, i);
+if (res_write == -1) /* check for write() error */
+{
+close(fd);
+return (-1);
 }
 }
 
-// Handle read errors
-if (bytes_read == -1) {
-dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-exit(98);
-}
-
-// Close files
-if (close(fd_from) == -1 || close(fd_to) == -1) {
-dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", errno);
-exit(100);
-}
-return 0;
+close(fd); /* close the file descriptor */
+return (1);
 }
