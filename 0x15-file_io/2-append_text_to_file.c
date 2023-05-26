@@ -1,36 +1,27 @@
 #include "main.h"
 
+int append_text_to_file(const char *filename, char *text_content);
+
 /**
- * append_text_to_file - Appends text at the end of a file.
- * @filename: The name of the file.
- * @text_content: The NULL-terminated string to add at the end of the file.
+ * main - Entry point of the program.
+ * @argc: The number of command-line arguments.
+ * @argv: An array of strings representing the command-line arguments.
  *
- * Return: 1 on success, -1 on failure.
- *         If filename is NULL, return -1.
- *         If text_content is NULL, do not add anything to the file.
- *         Return 1 if the file exists and -1 if the file does not exist or
- *         if you do not have the required permissions to write the file.
+ * Return: 0 on success, 1 on failure.
  */
-int append_text_to_file(const char *filename, char *text_content)
-{
-if (filename == NULL)
-return (-1);
 
-FILE *file = fopen(filename, "a");
-if (file == NULL)
-return (-1);
+int main(int argc, char *argv[])
+{
+int res;
 
-if (text_content != NULL)
+if (argc != 3)
 {
-if (fputs(text_content, file) == EOF)
-{
-fclose(file);
-return (-1);
-}
+fprintf(stderr, "Usage: %s filename text\n", argv[0]);
+exit(1);
 }
 
-if (fclose(file) == EOF)
-return (-1);
+res = append_text_to_file(argv[1], argv[2]);
+printf("-> %i\n", res);
 
-return (1);
+return (0);
 }
