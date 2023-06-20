@@ -1,13 +1,14 @@
 #include "main.h"
-#include<stdio.h>
 /**
-* main - Entry point
-* @str: string to be printed
-* Return: Always 0 (Success)
-*/
-void _puts(char *str);
-int main(void)
+ * _puts - prints a string, followed by a new line, to stdout
+ * @str: string to print
+ */
+
+void _puts(char *str)
 {
-puts(str);
-return (0);
+while (*str != '\0')
+{
+_putchar(*str++);
+}
+_putchar('\n');
 }
